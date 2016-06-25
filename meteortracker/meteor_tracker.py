@@ -1,53 +1,45 @@
-import server
-import cv2
-import time
-import camera
-import find_events
-import datetime as dt
-
-import configparser
-import save_event
-
-
 """
-@author(s): Nathan Heidt
+@author(s): Nathan Heidt, Jean Nassar
 
-This is the primary program for detecting and logging Meteors.  Running python meteor_tracker.py is sufficient.
+This is the primary program for detecting and logging Meteors. Running
+`python meteor_tracker.py` is sufficient.
+
 Make sure the parameters specified in the config.ini file are correct.
 
-TODO:
-    - 
-
-CHANGELOG:
-    - 
 """
+import configparser
 
-class Tracker():
-	def __init__(self, source = None):
-		self.cam = camera.Camera(source)
-		self.config = configparser.ConfigParser()
-		self.config.read('config.ini')
-		self.eventLogger = save_event.EventLogger()
+from . import camera
+from . import find_events
+from . import save_event
 
 
-	def run(self):
-		while True:
-			curImg = self.cam.getFrame()
-			prevImg = self.cam.getPrevFrame()
+class Tracker(object):
+    def __init__(self, source=None):
+        self.cam = camera.Camera(source)
+        self.config = configparser.ConfigParser()
+        self.config.read('config.ini')
+        self.eventLogger = save_event.EventLogger()
+        self.global_dict = {}
 
-			#detect number of anomalies (keypts) and highlight them in im
-			keypts, im = find_events.findMotionAnomaly(prevImg, curImg)
-			
-			#we have found an anomaly
-			if len(keypts) > 0:
-				print("Anomaly found!")
-				self.eventLogger.addEvent(curImg, prevImg)
+    def run(self):
+        while True:
+            current_image = self.cam.get_frame()
+            previous_image = self.cam.get_previous_frame()
 
-	def getLatestImg(self):
-		print("returning image")
-		return self.gobal_dict['lastestimage']
+            # detect number of anomalies (keypoints) and highlight them in im
+            keypoints, im = find_events.find_motion_anomaly(previous_image,
+                                                            current_image)
+
+            # we have found an anomaly
+            if keypoints:
+                print("Anomaly found!")
+                self.eventLogger.addEvent(curImg, prevImg)
+
+    def get_latest_image(self):
+        print("returning image")
+        return self.global_dict['lastestimage']
 
 
 if __name__ == "__main__":
-	t = Tracker()
-	t.run()
+    Tracker().run()
