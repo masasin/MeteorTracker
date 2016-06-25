@@ -1,41 +1,37 @@
 import configparser
-import os
-
 """
-@author(s): Nathan Heidt
+@author(s): Nathan Heidt, Jean Nassar
 
 This initializes necessary directories and files.
 
-TODO:
-    - 
-
-CHANGELOG:
-    - 
 """
 
-dbdir = 'Database'
-imdir = 'Database/images'
+import os
 
-def initialize(configPath='config.ini'):
-	config = configparser.ConfigParser()
-	config.read(configPath)
+db_dir = 'Database'
+im_dir = 'Database/images'
 
-	if not os.path.exists(dbdir):
-		print("creating database directory")
-		os.makedirs(dbdir)
-	if not os.path.exists(imdir):
-		print("creating image directory")
-		os.makedirs(imdir)
 
-	dbpath = os.path.abspath(dbdir)
-	impath = os.path.abspath(imdir)
+def initialize(config_path='config.ini'):
+    config = configparser.ConfigParser()
+    config.read(config_path)
 
-	config.set('Database', 'Local', dbpath + '/local.db')
-	config.set('Database', 'LocalImages', impath + '/')
+    if not os.path.exists(db_dir):
+        print("creating database directory")
+        os.makedirs(db_dir)
+    if not os.path.exists(im_dir):
+        print("creating image directory")
+        os.makedirs(im_dir)
 
-	with open(configPath, 'wb') as configfile:
-		config.write(configfile)
+    db_path = os.path.abspath(db_dir)
+    im_path = os.path.abspath(im_dir)
+
+    config.set('Database', 'Local', db_path + '/local.db')
+    config.set('Database', 'LocalImages', im_path + '/')
+
+    with open(config_path, 'wb') as configfile:
+        config.write(configfile)
 
 
 if __name__ == "__main__":
-	initialize()
+    initialize()

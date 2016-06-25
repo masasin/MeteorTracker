@@ -20,7 +20,7 @@ class Tracker(object):
         self.config = configparser.ConfigParser()
         self.config.read('config.ini')
         self.eventLogger = save_event.EventLogger()
-        self.global_dict = {}
+        self.global_dict = source
 
     def run(self):
         while True:
@@ -34,7 +34,7 @@ class Tracker(object):
             # we have found an anomaly
             if keypoints:
                 print("Anomaly found!")
-                self.eventLogger.addEvent(curImg, prevImg)
+                self.eventLogger.add_event(curImg, prevImg)
 
     def get_latest_image(self):
         print("returning image")
