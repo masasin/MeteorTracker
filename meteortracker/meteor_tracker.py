@@ -1,18 +1,18 @@
 import server
 import cv2
 import time
-import Camera
-import FindEvents
+import camera
+import find_events
 import datetime as dt
 
-import ConfigParser
-import SaveEvent
+import configparser
+import save_event
 
 
 """
 @author(s): Nathan Heidt
 
-This is the primary program for detecting and logging Meteors.  Running python MeteorTracker.py is sufficient.  
+This is the primary program for detecting and logging Meteors.  Running python meteor_tracker.py is sufficient.
 Make sure the parameters specified in the config.ini file are correct.
 
 TODO:
@@ -24,10 +24,10 @@ CHANGELOG:
 
 class Tracker():
 	def __init__(self, source = None):
-		self.cam = Camera.Camera(source)
-		self.config = ConfigParser.ConfigParser()
+		self.cam = camera.Camera(source)
+		self.config = configparser.ConfigParser()
 		self.config.read('config.ini')
-		self.eventLogger = SaveEvent.EventLogger()
+		self.eventLogger = save_event.EventLogger()
 
 
 	def run(self):
@@ -36,7 +36,7 @@ class Tracker():
 			prevImg = self.cam.getPrevFrame()
 
 			#detect number of anomalies (keypts) and highlight them in im
-			keypts, im = FindEvents.findMotionAnomaly(prevImg, curImg)
+			keypts, im = find_events.findMotionAnomaly(prevImg, curImg)
 			
 			#we have found an anomaly
 			if len(keypts) > 0:
@@ -44,7 +44,7 @@ class Tracker():
 				self.eventLogger.addEvent(curImg, prevImg)
 
 	def getLatestImg(self):
-		print "returning image"
+		print("returning image")
 		return self.gobal_dict['lastestimage']
 
 

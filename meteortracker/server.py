@@ -1,9 +1,9 @@
 import cv2
 from PIL import Image
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import StringIO
 import time
-import MeteorTracker
+import meteortracker
 
 """
 This is currently garbage and doesn't work

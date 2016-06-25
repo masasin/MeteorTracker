@@ -1,5 +1,5 @@
 import sqlite3
-import ConfigParser
+import configparser
 import datetime
 
 import cv2
@@ -20,7 +20,7 @@ CHANGELOG:
 
 class EventLogger():
 	def __init__(self, configPath='config.ini'):
-		self.config = ConfigParser.ConfigParser()
+		self.config = configparser.ConfigParser()
 		self.config.read(configPath)
 
 		#get working variables from config file

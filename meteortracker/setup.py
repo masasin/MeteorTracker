@@ -1,4 +1,4 @@
-import ConfigParser
+import configparser
 import os
 
 """
@@ -17,7 +17,7 @@ dbdir = 'Database'
 imdir = 'Database/images'
 
 def initialize(configPath='config.ini'):
-	config = ConfigParser.ConfigParser()
+	config = configparser.ConfigParser()
 	config.read(configPath)
 
 	if not os.path.exists(dbdir):
